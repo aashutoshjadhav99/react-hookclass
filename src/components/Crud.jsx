@@ -1,0 +1,119 @@
+import React, { useState } from "react";
+
+const Crud = () => {
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        number: "",
+        active: "",
+    });
+    const [users, setUsers] = useState([])
+    const handlechange = (e) => {
+        const {name,value}=e.target;
+        setForm ({
+            ...form,[name]:value
+        })
+
+     }
+    const handleSave = () => {
+        console.log(form)
+        setUsers([...users,form])
+        setForm({
+              name: "",
+              email: "",
+              number: "",
+              active: "",
+        });
+     };
+
+    const handleDelete = (index)=>{
+        const filterData = users.filter((el,i)=>{
+             return i!=index;
+        });
+        setUsers(filterData);
+    };
+
+
+    return (
+        <div className='min-h-screen bg-green-100 justify-center item-start pt-10 width-full flex'>
+            <div className="bg-white p-6 rounded shadow w-[600px]">
+                <h2 className="text-2xl text-center font-bold mb-4">Crud App</h2>
+                <div className="grid gap-4 grid-cols-2">
+
+
+                    <input 
+                           name="name" 
+                           className='border p-2'
+                           type='text'
+                           placeholder='Enter name'
+                           value={form.name} 
+                           onChange={handlechange}
+                     />
+
+
+                    <input 
+                           name="email" 
+                           value={form.email} 
+                           className="border p-2"  
+                           onChange={handlechange}
+                           placeholder="Enter Email" 
+                           type="email" 
+                    />
+
+
+                    <input
+                           name="number" 
+                           value={form.number} 
+                           className="border p-2" 
+                           onChange={handlechange}
+                           placeholder="Enter Number" 
+                           type="number" 
+                    />
+
+
+                    <input value={form.active} 
+                           className="border p-2" 
+                           onChange={handlechange} 
+                           type="text"
+                           name="active" 
+                           placeholder="Active/Inactive" 
+                    />
+
+
+                </div>
+                <div className="mt-4">
+                    <button className="bg-blue-600 rounded px-4 py-2" onClick={handleSave}>Save</button>
+                </div>
+            </div>
+            <div>
+             <table className="table-fixed">
+                <thead>
+                    <tr>
+                        <th className="border p-2">Name</th>
+                        <th className="border p-2">Email</th>
+                        <th  className="border p-2">Number</th>
+                        <th  className="border p-2">Status</th>
+                        <th className="border p-2">Action</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                  {users.map((e,i)=>(
+                  
+                  
+                    <tr>
+                        <td  className="border p-2">{e.name}</td>
+                        <td  className="border p-2">{e.email}</td>
+                        <td className="border p-2" >{e.number}</td>
+                        <td  className="border p-2">{e.active}</td>
+                        <td  className="border p-2 bg-red-500 text-white" onClick={()=>handleDelete(i)}>Delete</td>
+
+                    </tr>
+                  
+                ))}
+                    </tbody>
+            </table>
+            </div>
+        </div>
+    )
+}
+export default Crud
